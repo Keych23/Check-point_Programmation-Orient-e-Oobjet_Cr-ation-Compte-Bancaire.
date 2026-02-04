@@ -13,19 +13,24 @@ class Compte:
         else:
             print("Erreur : le montant du dépôt doit être positif.")
 
-    def remove(self, montant: float) -> bool:
-        """Retire un montant du compte si le solde est suffisant (en FCFA)"""
+    def withdraw(self, montant: float) -> float:
+        """Retire un montant du compte si le solde est suffisant et retourne le nouveau solde (en FCFA)"""
         if montant <= 0:
             print("Erreur : le montant à retirer doit être positif.")
-            return False
+            return self.solde_du_compte
 
         if self.solde_du_compte >= montant:
             self.solde_du_compte -= montant
             print(f"Retrait de {montant:,.0f} FCFA effectué.")
-            return True
+            print(f"Nouveau solde : {self.solde_du_compte:,.0f} FCFA")
+            return self.solde_du_compte
         else:
             print(f"Erreur : solde insuffisant. Solde actuel : {self.solde_du_compte:,.0f} FCFA")
-            return False
+            return self.solde_du_compte
+
+    def remove(self, montant: float) -> float:
+        """Alias pour withdraw - retire un montant et retourne le solde"""
+        return self.withdraw(montant)
 
     def check_balance(self) -> float:
         """Retourne le solde actuel du compte en FCFA"""
@@ -38,7 +43,7 @@ class Compte:
         print(f"Solde : {self.solde_du_compte:,.0f} FCFA")
 
 
-# 5.) Création d'une instance de la classe Account
+# 5.) Création d'une instance de la classe Compte
 my_account = Compte("125103260", "CHEIKH DIOP", 1000000.0)  # 1,000,000 FCFA
 
 # 6.) Utilisation des méthodes pour déposer, retirer et vérifier le solde
